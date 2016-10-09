@@ -1,8 +1,8 @@
 # PHP cURL [![Build Status](https://travis-ci.org/jabranr/php-curl.svg?branch=master)](https://travis-ci.org/jabranr/php-curl) [![Latest Stable Version](https://poser.pugx.org/jabranr/php-curl/v/stable.svg)](https://packagist.org/packages/php-curl/php-curl) [![Total Downloads](https://poser.pugx.org/jabranr/php-curl/downloads.svg)](https://packagist.org/packages/jabranr/php-curl)
 
-A quick start library for PHP cURL use.
+A simple PHP client for cURL operations.
 
-Simply import the library into your project. Best way to do so is to use [Composer](http://getcomposer.org) as following. Otherwise it can simply be downloaded from GitHub and added to the project.
+Simply import the library into your project. The best way to do so is to use [Composer](http://getcomposer.org) as following. Otherwise it can simply be downloaded from GitHub and added to the project.
 
 ```shell
 $ composer require jabranr/php-curl
@@ -11,6 +11,8 @@ $ composer require jabranr/php-curl
 Start using it straight away. (Following example assumes that it was installed via Composer)
 
 ```php
+<?php
+
 require 'path/to/vendor/autoload.php';
 
 // Start new cURL request
