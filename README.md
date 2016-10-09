@@ -1,4 +1,4 @@
-# PHP cURL
+# PHP cURL [![Build Status](https://travis-ci.org/jabranr/php-curl.svg?branch=master)](https://travis-ci.org/jabranr/php-curl) [![Latest Stable Version](https://poser.pugx.org/jabranr/php-curl/v/stable.svg)](https://packagist.org/packages/php-curl/php-curl) [![Total Downloads](https://poser.pugx.org/jabranr/php-curl/downloads.svg)](https://packagist.org/packages/jabranr/php-curl)
 
 A quick start library for PHP cURL use.
 
