@@ -1,0 +1,33 @@
+{
+    "name": "jabranr/php-curl",
+    "description": "A quick start PHP cURL library",
+    "type": "library",
+    "version": "1.0.0",
+    "license": "MIT License",
+    "homepage": "https://github.com/jabranr/php-curl",
+    "minimum-stability": "stable",
+    "keywords": ["php", "curl"],
+    "authors": [
+        {
+            "name": "Jabran Rafique",
+            "email": "hello@jabran.me",
+            "homepage": "http://jabran.me"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.7.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Jabran\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Jabran\\Tests\\": "test"
+        }
+    }
+}
