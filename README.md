@@ -13,10 +13,10 @@ Start using it straight away. (Following example assumes that it was installed v
 ```php
 <?php
 
-require 'path/to/vendor/autoload.php';
+require __DIR__.'/vendor/autoload.php';
 
 // Start new cURL request
-$curl = new Jabran\HttpCurlRequest('http://jabran.me');
+$curl = new Jabran\HttpUtil\HttpCurlRequest('http://jabran.me');
 
 // Set options - method 1
 $curl->setOption(CURLOPT_RETURNTRANSFER, true);
@@ -24,7 +24,7 @@ $curl->setOption(CURLOPT_FOLLOWLOCATION, true);
 
 // Set options - method 2
 $curl->setOptions(array(
-    CURLOPT_RETURNTRANSFER => true
+    CURLOPT_RETURNTRANSFER => true,
     CURLOPT_FOLLOWLOCATION => true
 ));
 
