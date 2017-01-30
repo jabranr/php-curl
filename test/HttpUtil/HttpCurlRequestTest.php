@@ -8,8 +8,11 @@ class HttpCurlRequestTest extends \PHPUnit_Framework_TestCase {
 
     private $_curl;
 
+    const URL = 'http://jabran.me/';
+
     public function setUp() {
-        $this->_curl = new HttpCurlRequest('http://jabran.me');
+        $this->_curl = new HttpCurlRequest(self::URL);
+	$this->_curl->setOption(CURLOPT_RETURNTRANSFER, true);
     }
 
     public function tearDown() {
@@ -17,7 +20,6 @@ class HttpCurlRequestTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @test
      */
     public function testConstructor() {
         $this->assertInstanceOf('Jabran\HttpUtil\HttpCurlRequest', $this->_curl);
@@ -27,14 +29,37 @@ class HttpCurlRequestTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @test
+     * @depends testConstructor
      */
     public function testGetStatusCode() {
-        $stub = $this->getMock('Jabran\HttpUtil\HttpCurlRequest');
-        $stub
-            ->method('getStatusCode')
-            ->willReturn(200);
-
-        $this->assertEquals(200, $stub->getStatusCode());
+	$this->_curl->execute();
+        $this->assertInternalType('integer', $this->_curl->getStatusCode());
+        $this->assertGreaterThan(0, $this->_curl->getStatusCode());
     }
+
+    /**
+     * @depends testConstructor
+     */
+    public function testGetInfo() {
+	$this->_curl->execute();
+	$this->assertEquals($this->_curl->getInfo(CURLINFO_EFFECTIVE_URL), self::URL);
+    }
+
+    /**
+     * @depends testConstructor
+     */
+    public function testGetRequestTime() {
+	$this->_curl->execute();
+	$this->assertInternalType('float', $this->_curl->getRequestTime());
+    }
+
+    /**
+     * @test
+     * @depends testConstructor
+     */
+    public function testGetResponse() {
+	$this->_curl->execute();
+	$this->assertInternalType('string', $this->_curl->getResponse());
+    }
+
 }
