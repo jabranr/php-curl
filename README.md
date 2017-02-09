@@ -13,7 +13,7 @@ Start using it straight away. (Following example assumes that it was installed v
 ```php
 <?php
 
-require __DIR__.'/vendor/autoload.php';
+require '/path/to/vendor/autoload.php';
 
 // Start new cURL request
 $curl = new Jabran\HttpUtil\HttpCurlRequest('http://jabran.me');
