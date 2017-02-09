@@ -99,6 +99,6 @@ $curl->getResponse();
 
 
 # License
-Feel free to use and send improvements via pull requests. License under the MIT License.
+Feel free to use and send improvements via pull requests. Licensed under the MIT License.
 
-&copy; Jabran Rafique &ndash; 2016
+&copy; Jabran Rafique &ndash; 2016 &ndash; 2017
