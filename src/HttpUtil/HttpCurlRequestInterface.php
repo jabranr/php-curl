@@ -13,8 +13,8 @@ interface HttpCurlRequestInterface {
     /**
      * Set options for cURL request
      *
-     * @param cURL constant $name
-     * @param mixed $value
+     * @param string $name
+     * @param string $value
      */
     public function setOption($name, $value);
 
@@ -23,7 +23,7 @@ interface HttpCurlRequestInterface {
      *
      * @param array $options
      */
-    public function setOptions($options);
+    public function setOptions(array $options);
 
     /**
      * Execute a cURL request
@@ -33,7 +33,7 @@ interface HttpCurlRequestInterface {
     /**
      * Get cURL request info
      *
-     * @param cURL constant $name
+     * @param mixed $name
      */
     public function getInfo($name);
 

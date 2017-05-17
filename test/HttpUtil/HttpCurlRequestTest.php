@@ -11,16 +11,14 @@ class HttpCurlRequestTest extends \PHPUnit_Framework_TestCase {
     const URL = 'http://jabran.me/';
 
     public function setUp() {
-        $this->_curl = new HttpCurlRequest(self::URL);
-	$this->_curl->setOption(CURLOPT_RETURNTRANSFER, true);
+        $this->_curl = new HttpCurlRequest(static::URL);
+        $this->_curl->setOption(CURLOPT_RETURNTRANSFER, true);
     }
 
     public function tearDown() {
         $this->_curl = null;
     }
 
-    /**
-     */
     public function testConstructor() {
         $this->assertInstanceOf('Jabran\HttpUtil\HttpCurlRequest', $this->_curl);
         $this->assertNotNull($this->_curl->getHandle());
@@ -32,7 +30,7 @@ class HttpCurlRequestTest extends \PHPUnit_Framework_TestCase {
      * @depends testConstructor
      */
     public function testGetStatusCode() {
-	$this->_curl->execute();
+        $this->_curl->execute();
         $this->assertInternalType('integer', $this->_curl->getStatusCode());
         $this->assertGreaterThan(0, $this->_curl->getStatusCode());
     }
@@ -41,25 +39,24 @@ class HttpCurlRequestTest extends \PHPUnit_Framework_TestCase {
      * @depends testConstructor
      */
     public function testGetInfo() {
-	$this->_curl->execute();
-	$this->assertEquals($this->_curl->getInfo(CURLINFO_EFFECTIVE_URL), self::URL);
+        $this->_curl->execute();
+        $this->assertEquals($this->_curl->getInfo(CURLINFO_EFFECTIVE_URL), static::URL);
     }
 
     /**
      * @depends testConstructor
      */
     public function testGetRequestTime() {
-	$this->_curl->execute();
-	$this->assertInternalType('float', $this->_curl->getRequestTime());
+        $this->_curl->execute();
+        $this->assertInternalType('float', $this->_curl->getRequestTime());
     }
 
     /**
-     * @test
      * @depends testConstructor
      */
     public function testGetResponse() {
-	$this->_curl->execute();
-	$this->assertInternalType('string', $this->_curl->getResponse());
+        $this->_curl->execute();
+        $this->assertInternalType('string', $this->_curl->getResponse());
     }
 
 }
