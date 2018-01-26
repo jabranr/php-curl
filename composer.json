@@ -3,7 +3,7 @@
     "description": "A quick start PHP cURL library",
     "type": "library",
     "version": "1.0.1",
-    "license": "MIT License",
+    "license": "MIT",
     "homepage": "https://github.com/jabranr/php-curl",
     "minimum-stability": "stable",
     "keywords": ["php", "curl"],
