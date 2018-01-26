@@ -1,12 +1,12 @@
 {
     "name": "jabranr/php-curl",
-    "description": "A quick start PHP cURL library",
+    "description": "Tiny PHP helper library to make cURL requests",
     "type": "library",
     "version": "1.0.1",
     "license": "MIT",
     "homepage": "https://github.com/jabranr/php-curl",
     "minimum-stability": "stable",
-    "keywords": ["php", "curl"],
+    "keywords": ["php", "curl", "library"],
     "authors": [
         {
             "name": "Jabran Rafique",

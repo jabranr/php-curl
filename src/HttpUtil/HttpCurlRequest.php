@@ -2,7 +2,6 @@
 
 namespace Jabran\HttpUtil;
 
-use Jabran\HttpUtil\HttpCurlRequestInterface;
 use Jabran\HttpUtil\Exception\HttpCurlException;
 
 /**
@@ -19,11 +18,15 @@ class HttpCurlRequest implements HttpCurlRequestInterface {
     private $handle;
 
     /**
+     * @var mixed
+     */
+    private $response;
+
+    /**
+     * HttpCurlRequest constructor
      * Initiate a cURL request with URI
      *
-     * @uses curl_init
      * @param string $uri
-     * @return Jabran\HttpUtil\HttpCurlRequest
      */
     public function __construct($uri = '') {
         $this->handle = curl_init($uri);
@@ -33,10 +36,9 @@ class HttpCurlRequest implements HttpCurlRequestInterface {
     /**
      * Set a cURL option
      *
-     * @uses curl_setopt
      * @param string $name
      * @param string $value
-     * @return Jabran\HttpUtil\HttpCurlRequest
+     * @return $this
      */
     public function setOption($name, $value) {
         curl_setopt($this->handle, $name, $value);
@@ -46,11 +48,10 @@ class HttpCurlRequest implements HttpCurlRequestInterface {
     /**
      * Set cURL options
      *
-     * @uses curl_setopt_array
      * @param array $options
-     * @return Jabran\HttpUtil\HttpCurlRequest
+     * @return $this
      */
-    public function setOptions($options) {
+    public function setOptions(array $options) {
         curl_setopt_array($this->handle, $options);
         return $this;
     }
@@ -58,19 +59,19 @@ class HttpCurlRequest implements HttpCurlRequestInterface {
     /**
      * Execute a cURL request
      *
-     * @uses curl_exec
-     * @throws Jabran\HttpUtil\Exception\HttpCurlException
      * @return mixed
      */
     public function execute() {
         $response = curl_exec($this->handle);
 
         if (CURLE_OK !== $this->getErrorCode()) {
+            $this->close();
             throw new HttpCurlException(
                 sprintf('An error (%d) occured while executing the cURL request.', $this->getErrorCode())
             );
         }
 
+        $this->close();
         $this->response = $response;
         return $this->response;
     }
@@ -78,12 +79,11 @@ class HttpCurlRequest implements HttpCurlRequestInterface {
     /**
      * Get cURL request info
      *
-     * @uses curl_getinfo
-     * @param cURL constant $name
-     * @return mixed|array
+     * @param mixed $name
+     * @return mixed
      */
     public function getInfo($name = null) {
-        if (! $name) {
+        if (!$name) {
             return curl_getinfo($this->handle);
         }
 
@@ -93,7 +93,6 @@ class HttpCurlRequest implements HttpCurlRequestInterface {
     /**
      * Get cURL request error
      *
-     * @uses curl_error
      * @return string
      */
     public function getError() {
@@ -103,8 +102,7 @@ class HttpCurlRequest implements HttpCurlRequestInterface {
     /**
      * Get cURL request error code
      *
-     * @uses curl_errno
-     * @return cURL constant
+     * @return int
      */
     public function getErrorCode() {
         return curl_errno($this->handle);
@@ -113,8 +111,7 @@ class HttpCurlRequest implements HttpCurlRequestInterface {
     /**
      * Get cURL request HTTP status code
      *
-     * @uses curl_getinfo
-     * @return int
+     * @return mixed
      */
     public function getStatusCode() {
         return $this->getInfo(CURLINFO_HTTP_CODE);
@@ -123,8 +120,7 @@ class HttpCurlRequest implements HttpCurlRequestInterface {
     /**
      * Get total time taken by cURL request
      *
-     * @uses curl_getinfo
-     * @return float
+     * @return mixed
      */
     public function getRequestTime() {
         return $this->getInfo(CURLINFO_TOTAL_TIME);
@@ -142,8 +138,7 @@ class HttpCurlRequest implements HttpCurlRequestInterface {
     /**
      * Close a cURL request
      *
-     * @uses curl_close
-     * @return Jabran\HttpUtil\HttpCurlRequest
+     * @return $this
      */
     public function close() {
         curl_close($this->handle);
@@ -151,10 +146,12 @@ class HttpCurlRequest implements HttpCurlRequestInterface {
     }
 
     /**
-     * @codeCoverageIgnore
+     * Get resource handle
+     *
+     * @return resource
      */
     public function getHandle() {
-       return $this->handle;
+        return $this->handle;
     }
 }
 
