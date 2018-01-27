@@ -2,6 +2,7 @@
 
 namespace Jabran\Tests\HttpUtil;
 
+use Jabran\HttpUtil\Exception\HttpCurlException;
 use Jabran\HttpUtil\HttpCurlRequest;
 
 class HttpCurlRequestTest extends \PHPUnit_Framework_TestCase {
@@ -12,15 +13,13 @@ class HttpCurlRequestTest extends \PHPUnit_Framework_TestCase {
 
     public function setUp() {
         $this->_curl = new HttpCurlRequest(self::URL);
-	$this->_curl->setOption(CURLOPT_RETURNTRANSFER, true);
+        $this->_curl->setOption(CURLOPT_RETURNTRANSFER, true);
     }
 
     public function tearDown() {
         $this->_curl = null;
     }
 
-    /**
-     */
     public function testConstructor() {
         $this->assertInstanceOf('Jabran\HttpUtil\HttpCurlRequest', $this->_curl);
         $this->assertNotNull($this->_curl->getHandle());
@@ -31,26 +30,28 @@ class HttpCurlRequestTest extends \PHPUnit_Framework_TestCase {
     /**
      * @depends testConstructor
      */
-    public function testGetStatusCode() {
-	$this->_curl->execute();
-        $this->assertInternalType('integer', $this->_curl->getStatusCode());
-        $this->assertGreaterThan(0, $this->_curl->getStatusCode());
+    public function testGetHttpCode() {
+        $this->_curl->execute();
+        $this->assertInternalType('integer', $this->_curl->getHttpCode());
+        $this->assertGreaterThan(0, $this->_curl->getHttpCode());
     }
 
     /**
      * @depends testConstructor
      */
     public function testGetInfo() {
-	$this->_curl->execute();
-	$this->assertEquals($this->_curl->getInfo(CURLINFO_EFFECTIVE_URL), self::URL);
+        $this->_curl->execute(false);
+        $info = $this->_curl->getInfo(CURLINFO_EFFECTIVE_URL);
+        $this->_curl->close();
+        $this->assertEquals($info, self::URL);
     }
 
     /**
      * @depends testConstructor
      */
-    public function testGetRequestTime() {
-	$this->_curl->execute();
-	$this->assertInternalType('float', $this->_curl->getRequestTime());
+    public function testGetTotalTime() {
+        $this->_curl->execute();
+        $this->assertInternalType('float', $this->_curl->getTotalTime());
     }
 
     /**
@@ -58,8 +59,17 @@ class HttpCurlRequestTest extends \PHPUnit_Framework_TestCase {
      * @depends testConstructor
      */
     public function testGetResponse() {
-	$this->_curl->execute();
-	$this->assertInternalType('string', $this->_curl->getResponse());
+        $this->_curl->execute();
+        $this->assertInternalType('string', $this->_curl->getResponse());
     }
 
+    /**
+     * @test
+     * @expectedException Jabran\HttpUtil\Exception\HttpCurlException
+     */
+    public function testExecuteWillThrowException() {
+        $curl = new HttpCurlRequest('foo.bar');
+        $curl->setOption(CURLOPT_RETURNTRANSFER, true);
+        $curl->execute();
+    }
 }
