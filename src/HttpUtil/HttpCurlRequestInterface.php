@@ -6,7 +6,7 @@ namespace Jabran\HttpUtil;
  * Basic interface for a cURL class
  *
  * @author Jabran Rafique <hello@jabran.me>
- * @license MIT License
+ * @license MIT
  */
 interface HttpCurlRequestInterface {
 
@@ -40,7 +40,7 @@ interface HttpCurlRequestInterface {
     /**
      * Get cURL status code
      */
-    public function getStatusCode();
+    public function getHttpCode();
 
     /**
      * Get cURL error code

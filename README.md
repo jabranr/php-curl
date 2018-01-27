@@ -2,6 +2,8 @@
 
 A simple PHP client for cURL operations.
 
+> __Migrating from v1?__ Beware that v2 has breaking changes! Some of the API methods names have changed.
+
 Simply import the library into your project. The best way to do so is to use [Composer](http://getcomposer.org) as following. Otherwise it can simply be downloaded from GitHub and added to the project.
 
 ```shell
@@ -15,27 +17,51 @@ Start using it straight away. (Following example assumes that it was installed v
 
 require 'path/to/vendor/autoload.php';
 
-// Start new cURL request
-$curl = new Jabran\HttpUtil\HttpCurlRequest('http://jabran.me');
+use Jabran\HttpUtil\HttpCurlRequest;
+use Jabran\HttpUtil\Exception\HttpCurlException;
 
-// Set options - method 1
+# Start new cURL request
+$curl = new HttpCurlRequest('http://jabran.me');
+```
+
+Setting cURL options
+```php
+<?php
+
+# Set options - method 1
 $curl->setOption(CURLOPT_RETURNTRANSFER, true);
 $curl->setOption(CURLOPT_FOLLOWLOCATION, true);
 
-// Set options - method 2
+# Set options - method 2
 $curl->setOptions(array(
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_FOLLOWLOCATION => true
 ));
 
-// Execute request and get response
-$response = $curl->execute();
+# Execute request, get response and close connection
+try {
+    $response = $curl->execute();
+} catch(HttpCurlException $e) {
+    $curl->getErrorCode(); // -> cURL error number
+    $curl->getErrorMessage(); // -> cURL error message
+    
+    # OR
+    
+    $e->getMessage(); // -> cURL error: [ErrorCode] ErrorMessage
+}
 
-// OR
-$curl->execute();
-$curl->getResponse();
+# OR get more info and close connection manually
+try {
+    $response = $curl->execute(false);
+} catch(HttpCurlException $e) { }
 
-// Close request
+# Get response later
+$response = $curl->getResponse();
+
+# 
+$info = $curl->getInfo();
+
+# Close request
 $curl->close();
 ```
 
@@ -49,7 +75,9 @@ The cURL class exposes following API:
 Get cURL request info. `$option` needs to be a valid cURL constant. If none given then it will return an associative array.
 
 ```php
+$curl->execute(false);
 $curl->getInfo($option = null);
+$curl->close();
 ```
 
 
@@ -71,21 +99,30 @@ $curl->getErrorCode();
 ```
 
 
-#### `getStatusCode`
+#### `getErrorMessage`
+
+Get cURL request error message.
+
+```php
+$curl->getErrorMessage();
+```
+
+
+#### `getHttpCode`
 
 Get cURL request HTTP status code.
 
 ```php
-$curl->getStatusCode();
+$curl->getHttpCode();
 ```
 
 
-#### `getRequestTime`
+#### `getTotalTime`
 
 Get total time taken for a cURL request.
 
 ```php
-$curl->getRequestTime();
+$curl->getTotalTime();
 ```
 
 
